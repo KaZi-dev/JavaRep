@@ -3,8 +3,8 @@ package Test.CamundaP;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
-public class TestCaseDelegate implements JavaDelegate
-{
+public class TestCaseBDelegate implements JavaDelegate {
+
 	public static String name;
 	public static String address;
 	public static String gender;

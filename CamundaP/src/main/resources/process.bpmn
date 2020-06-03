@@ -8,32 +8,70 @@
       <bpmn:outgoing>SequenceFlow1</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="SequenceFlow1" sourceRef="StartEventProcessStarted" targetRef="TestUserTask" />
-    <bpmn:sequenceFlow id="Flow_1l5uqqj" sourceRef="Activity_0u6ywq8" targetRef="EndEventProcessEnded" />
-    <bpmn:endEvent id="EndEventProcessEnded" name="Process&#10;ended">
-      <bpmn:incoming>Flow_1l5uqqj</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:serviceTask id="Activity_0u6ywq8" name="Test" camunda:asyncBefore="true" camunda:class="Test.CamundaP.TestCaseDelegate">
-      <bpmn:incoming>Flow_1wiwn9c</bpmn:incoming>
-      <bpmn:outgoing>Flow_1l5uqqj</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_1wiwn9c" sourceRef="TestUserTask" targetRef="Activity_0u6ywq8" />
-    <bpmn:userTask id="TestUserTask" name="Test User">
+    <bpmn:sequenceFlow id="Flow_1wiwn9c" sourceRef="TestUserTask" targetRef="Gateway_08xfeko" />
+    <bpmn:userTask id="TestUserTask" name="User-Interaction">
       <bpmn:incoming>SequenceFlow1</bpmn:incoming>
       <bpmn:outgoing>Flow_1wiwn9c</bpmn:outgoing>
     </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_17sgj5z" name="male" sourceRef="Gateway_08xfeko" targetRef="Activity_0u6ywq8">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${gender=='Male'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="EndEventProcessEnded" name="Process&#10;ended A">
+      <bpmn:incoming>Flow_12ufjpp</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_181a5mx" name="Process ended B">
+      <bpmn:incoming>Flow_0zvt4fd</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1dekyfk" name="female" sourceRef="Gateway_08xfeko" targetRef="Activity_1u83tjb">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${gender=='Female'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Activity_0u6ywq8" name="Userdata output A" camunda:asyncBefore="true" camunda:class="Test.CamundaP.TestCaseDelegate">
+      <bpmn:incoming>Flow_17sgj5z</bpmn:incoming>
+      <bpmn:outgoing>Flow_12ufjpp</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_12ufjpp" sourceRef="Activity_0u6ywq8" targetRef="EndEventProcessEnded" />
+    <bpmn:exclusiveGateway id="Gateway_08xfeko" camunda:asyncBefore="true">
+      <bpmn:incoming>Flow_1wiwn9c</bpmn:incoming>
+      <bpmn:outgoing>Flow_17sgj5z</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1dekyfk</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0zvt4fd" sourceRef="Activity_1u83tjb" targetRef="Event_181a5mx" />
+    <bpmn:serviceTask id="Activity_1u83tjb" name="Userdata ouput B" camunda:asyncBefore="true" camunda:class="Test.CamundaP.TestCaseBDelegate">
+      <bpmn:incoming>Flow_1dekyfk</bpmn:incoming>
+      <bpmn:outgoing>Flow_0zvt4fd</bpmn:outgoing>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0tyq71i">
       <bpmndi:BPMNShape id="Participant_1uqx45t_di" bpmnElement="Participant_1uqx45t" isHorizontal="true">
         <dc:Bounds x="123" y="80" width="727" height="250" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0zvt4fd_di" bpmnElement="Flow_0zvt4fd">
+        <di:waypoint x="700" y="280" />
+        <di:waypoint x="782" y="280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12ufjpp_di" bpmnElement="Flow_12ufjpp">
+        <di:waypoint x="680" y="170" />
+        <di:waypoint x="782" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1dekyfk_di" bpmnElement="Flow_1dekyfk">
+        <di:waypoint x="470" y="195" />
+        <di:waypoint x="470" y="280" />
+        <di:waypoint x="600" y="280" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="541" y="263" width="33" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17sgj5z_di" bpmnElement="Flow_17sgj5z">
+        <di:waypoint x="495" y="170" />
+        <di:waypoint x="580" y="170" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="536" y="152" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1wiwn9c_di" bpmnElement="Flow_1wiwn9c">
         <di:waypoint x="420" y="170" />
-        <di:waypoint x="540" y="170" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1l5uqqj_di" bpmnElement="Flow_1l5uqqj">
-        <di:waypoint x="640" y="170" />
-        <di:waypoint x="732" y="170" />
+        <di:waypoint x="445" y="170" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_08va5r8_di" bpmnElement="SequenceFlow1">
         <di:waypoint x="209" y="170" />
@@ -48,17 +86,29 @@
           <dc:Bounds x="171" y="188" width="41" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hvcflm_di" bpmnElement="TestUserTask">
+        <dc:Bounds x="320" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_0fkea3f_di" bpmnElement="EndEventProcessEnded">
-        <dc:Bounds x="732" y="152" width="36" height="36" />
+        <dc:Bounds x="782" y="152" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="730" y="188" width="41" height="27" />
+          <dc:Bounds x="780" y="188" width="42" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_181a5mx_di" bpmnElement="Event_181a5mx">
+        <dc:Bounds x="782" y="262" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="758" y="305" width="85" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_03ogtgv_di" bpmnElement="Activity_0u6ywq8">
-        <dc:Bounds x="540" y="130" width="100" height="80" />
+        <dc:Bounds x="580" y="130" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0hvcflm_di" bpmnElement="TestUserTask">
-        <dc:Bounds x="320" y="130" width="100" height="80" />
+      <bpmndi:BPMNShape id="Gateway_08xfeko_di" bpmnElement="Gateway_08xfeko" isMarkerVisible="true">
+        <dc:Bounds x="445" y="145" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hk485l_di" bpmnElement="Activity_1u83tjb">
+        <dc:Bounds x="600" y="240" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
